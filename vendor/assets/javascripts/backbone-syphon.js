@@ -77,12 +77,12 @@
       var validKeyAssignment = config.keyAssignmentValidators.get(type);
       if (validKeyAssignment($el, key, value)) {
         var keychain = config.keySplitter(key);
-        data = assignKeyValue(data, keychain, value);
+        data = _.isFunction(Syphon.AssignKeyValue) ? Syphon.AssignKeyValue(data, keychain, value) : assignKeyValue(data, keychain, value);
       }
     });
   
     // Done; send back the results.
-    return data;
+    return _.isFunction(Syphon.afterSerialize) ? Syphon.afterSerialize(data) : data;
   };
   
   // Use the given JSON object to populate
